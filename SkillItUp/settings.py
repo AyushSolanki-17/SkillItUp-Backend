@@ -74,12 +74,12 @@ WSGI_APPLICATION = 'SkillItUp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'skillitup',
-        'USER': 'admin',
-        'PASSWORD': 'mysqladmin123',
-        'HOST': 'database-1.cz1y0h51uo8x.us-west-2.rds.amazonaws.com',
-        'PORT': '3306',
+        'USER': 'postgres',
+        'PASSWORD': 'skillitupdba',
+        'HOST': 'db1.cz1y0h51uo8x.us-west-2.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
