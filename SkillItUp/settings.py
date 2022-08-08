@@ -74,12 +74,12 @@ WSGI_APPLICATION = 'SkillItUp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'skillitupdb',
-        'USER': 'postgres',
-        'PASSWORD': 'skillitupdba',
-        'HOST': 'skillitupdb.chbtwoxaz78w.us-east-1.rds.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'skillitup',
+        'USER': 'admin',
+        'PASSWORD': 'mysqladmin123',
+        'HOST': 'database-1.cz1y0h51uo8x.us-west-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
@@ -124,5 +124,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    '/var/www/static/',
+    #'/var/www/static/',
 ]
