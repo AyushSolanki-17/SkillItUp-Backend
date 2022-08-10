@@ -9,6 +9,9 @@ class Domain(models.Model):
     description = models.TextField()
     img = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 # SubDomain Model
 class SubDomain(models.Model):
@@ -16,6 +19,9 @@ class SubDomain(models.Model):
     description = models.TextField()
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
     img = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 # Topic Model
@@ -25,6 +31,9 @@ class Topic(models.Model):
     subdomain = models.ForeignKey(SubDomain, on_delete=models.CASCADE)
     img = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 # Educational Institutes
 class EducationalInstitute(models.Model):
@@ -33,6 +42,9 @@ class EducationalInstitute(models.Model):
     subdomains = models.ManyToManyField(SubDomain, blank=True)
     students = models.ManyToManyField(User, blank=True)
     img = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 # Event Model
@@ -44,6 +56,9 @@ class Event(models.Model):
     date = models.DateField()
     attendees = models.ManyToManyField(User)
 
+    def __str__(self):
+        return self.name
+
 
 # TrendingTech IT
 class TrendingTechIT(models.Model):
@@ -54,6 +69,9 @@ class TrendingTechIT(models.Model):
     popularity = models.FloatField()
     img = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 # Profession
 class Profession(models.Model):
@@ -63,6 +81,9 @@ class Profession(models.Model):
     expected_salary = models.IntegerField()
     technologies = models.ManyToManyField(TrendingTechIT)
     img = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.role
 
 
 # Courses Model
@@ -77,8 +98,11 @@ class Courses(models.Model):
     technologies = models.ManyToManyField(TrendingTechIT)
     professions = models.ManyToManyField(Profession)
 
+    def __str__(self):
+        return self.name
 
-# Reccomendation Tes
+
+# Reccomendation Test
 class ReccomendationTest(models.Model):
     LEARNER = 0
     INTERMEDIATE = 1

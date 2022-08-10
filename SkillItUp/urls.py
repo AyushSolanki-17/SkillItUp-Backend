@@ -20,6 +20,7 @@ from baton.autodiscover import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('baton/',include("baton.urls")),
+    path('baton/', include("baton.urls")),
     path('', include('mainapp.urls')),
+    path('api/', include("api.urls"))
 ]
