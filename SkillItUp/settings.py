@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'baton',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mainapp.apps.MainappConfig',
+    'api.apps.ApiConfig',
+    'skillitupcore.apps.SkillitupcoreConfig',
+    'baton.autodiscover'
 ]
 
 MIDDLEWARE = [
@@ -53,8 +57,7 @@ ROOT_URLCONF = 'SkillItUp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,9 +87,6 @@ DATABASES = {
 }
 
 
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -114,6 +114,16 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+BATON = {
+    'SITE_HEADER': 'SkillItUp Administration',
+    'SITE_TITLE': 'SkillItUp',
+    'INDEX_TITLE': 'Site administration',
+    'SUPPORT_HREF': 'https://github.com/otto-torino/django-baton/issues',
+    'COPYRIGHT': 'copyright © 2022 SkillItUp by AyushSolanki(ayush17solanki@gmail.com)', # noqa
+    'POWERED_BY': 'AyushSolanki(ayush17solanki@gmail.com)',
+
+}
+
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
@@ -128,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    #'/var/www/static/',
+    # '/var/www/static/',
 ]
 
 AUTH_USER_MODEL = 'mainapp.User'
