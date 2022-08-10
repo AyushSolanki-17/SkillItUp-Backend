@@ -80,8 +80,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'skillitup',
         'USER': 'postgres',
-        'PASSWORD': 'skillitupdba',
-        'HOST': 'db1.cz1y0h51uo8x.us-west-2.rds.amazonaws.com',
+        'PASSWORD': 'TSwzhx5r4txUduT',
+        'HOST': 'skillitupdbopr.cz1y0h51uo8x.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }

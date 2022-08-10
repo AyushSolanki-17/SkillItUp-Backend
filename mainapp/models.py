@@ -40,6 +40,7 @@ class UserManager(BaseUserManager):
             occupation=occupation
         )
         user.is_admin = True
+        user.is_staff = True
         user.occupation = occupation
         user.save(using=self._db)
         return user
@@ -59,6 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     occupation = models.CharField(max_length=1, choices=OCCUPATION_CHOICES)
     is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
@@ -79,8 +81,3 @@ class User(AbstractBaseUser, PermissionsMixin):
         # Simplest possible answer: Yes, always
         return True
 
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
-        return self.is_admin
