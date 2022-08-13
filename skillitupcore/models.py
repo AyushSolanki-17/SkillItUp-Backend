@@ -81,6 +81,7 @@ class Profession(models.Model):
     expected_salary = models.IntegerField()
     technologies = models.ManyToManyField(TrendingTechIT)
     img = models.TextField(null=True, blank=True)
+    logo = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.role
