@@ -17,7 +17,7 @@ class SubDomainSerializer(serializers.ModelSerializer):
 
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SubDomain
+        model = Topic
         fields = '__all__'
 
 
@@ -43,3 +43,9 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Courses
         fields = '__all__'
+
+
+class ReccomendationTestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReccomendationTest
+        fields = "__all__"

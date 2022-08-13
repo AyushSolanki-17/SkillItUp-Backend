@@ -25,7 +25,7 @@ class AccountTests(APITestCase):
         response = self.client.get("/api/domains/2/", format='json')
         print(response.data)
         print("===========================")
-        response = self.client.get("/api/subdomains/1/", format='json')
+        response = self.client.get("/api/topics/", format='json')
         print(response.data)
         print("===========================")
         self.assertEqual(response.status_code, status.HTTP_200_OK)

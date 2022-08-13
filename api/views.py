@@ -124,3 +124,34 @@ class TrendingTechITViewSet(ViewSet):
             return Response(serializer.data)
         except:
             return Response({"Error": "Specified Technology not found"})
+
+
+class ReccomendationTest(ViewSet):
+
+    queryset = ReccomendationTest.objects.all()
+
+    def list(self, request):
+        try:
+            self.queryset = self.queryset.all().order_by("date")
+            serializer = ReccomendationTestSerializer(self.queryset, many=True)
+            return Response(serializer.data)
+        except:
+            return Response({"Error": "Records not found"})
+
+    def retrieve(self, request, pk=None):
+        try:
+            item = get_object_or_404(self.queryset, pk=pk)
+            serializer = ReccomendationTestSerializer(item)
+            return Response(serializer.data)
+        except:
+            return Response({"Error": "Record not found"})
+
+    def create(self, request):
+        try:
+            serializer = ReccomendationTestSerializer(data=request.data, context={"request": request})
+            serializer.is_valid(raise_exception=True)
+
+            serializer.save()
+            return Response()
+        except:
+            return Response({"Error": "Error in Integirty of Data"})

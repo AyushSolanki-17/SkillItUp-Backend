@@ -116,6 +116,7 @@ class ReccomendationTest(models.Model):
         (EXPERT, 'Expert')
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField()
     certificate = models.CharField(max_length=200)
     data_structure = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
     operating_system = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
