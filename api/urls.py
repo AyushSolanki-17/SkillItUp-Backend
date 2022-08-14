@@ -11,4 +11,5 @@ router.register(r'subdomains', views.SubDomainViewSet, basename='subdomains')
 router.register(r'topics', views.TopicViewSet, basename='topics')
 router.register(r'professions', views.ProfessionViewSet, basename='proffesions')
 router.register(r'courses', views.CourseViewSet, basename='courses')
+router.register(r'trendingtechit', views.TrendingTechITViewSet, basename='trendingtechit')
 urlpatterns = router.urls
