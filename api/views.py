@@ -163,4 +163,5 @@ class ReccomendationTestViewSet(ViewSet):
             data = {"suggested_job_id": dbid, "suggested_job": pserializer.data}
             return Response(data)
         except:
-            return Response({"Error": "Data Integrity Error",})
+            return Response({"Error": "Data Integrity Error", "ErrorDetails": serializer.errors,
+                             "ED": serializer.error_messages})
