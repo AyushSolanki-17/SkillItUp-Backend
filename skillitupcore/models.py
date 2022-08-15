@@ -132,6 +132,7 @@ class ReccomendationTest(models.Model):
     statistics = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
     communication = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
     english = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
+    programming = models.SmallIntegerField(choices=GRADE_CHOICES,default=LEARNER)
     creativity = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
     hackathon = models.BooleanField(default=False)
     hackathon_role = models.BooleanField(default=False)
