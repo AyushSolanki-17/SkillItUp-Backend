@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny
@@ -5,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 # Create your views here.
+from skillitupcore.MLToDBMapper import MLToDBMapper
+from api import mlpred
 from api.serializers import *
 from skillitupcore.models import *
 
@@ -126,7 +129,7 @@ class TrendingTechITViewSet(ViewSet):
             return Response({"Error": "Specified Technology not found"})
 
 
-class ReccomendationTest(ViewSet):
+class ReccomendationTestViewSet(ViewSet):
 
     queryset = ReccomendationTest.objects.all()
 
@@ -147,11 +150,17 @@ class ReccomendationTest(ViewSet):
             return Response({"Error": "Record not found"})
 
     def create(self, request):
+
         try:
             serializer = ReccomendationTestSerializer(data=request.data, context={"request": request})
             serializer.is_valid(raise_exception=True)
-
+            pred = mlpred.model1predict(request.data)
+            dbid = MLToDBMapper.mltodb(pred)
+            profession = get_object_or_404(Profession.objects.all(), pk=dbid)
+            serializer.validated_data["profession"] = profession
             serializer.save()
-            return Response()
+            pserializer = ProfessionSerializer(profession)
+            data = {"suggested_job_id": dbid, "suggested_job": pserializer.data}
+            return Response(data)
         except:
-            return Response({"Error": "Error in Integirty of Data"})
+            return Response({"Error": "Data Integrity Error",})
