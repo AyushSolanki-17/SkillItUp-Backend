@@ -62,12 +62,24 @@ class Event(models.Model):
         return self.name
 
 
-# TrendingTech IT
-class TrendingTechIT(models.Model):
+# TrendingTech
+class TrendingTech(models.Model):
     name = models.CharField(max_length=50)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     description = models.TextField()
     companies = models.TextField()
+    popularity = models.FloatField()
+    img = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+# TrendingTools
+class TrendingTool(models.Model):
+    name = models.CharField(max_length=50)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    description = models.TextField()
     popularity = models.FloatField()
     img = models.TextField(null=True, blank=True)
 
@@ -81,7 +93,8 @@ class Profession(models.Model):
     description = models.TextField()
     responsibilites = models.TextField()
     expected_salary = models.IntegerField()
-    technologies = models.ManyToManyField(TrendingTechIT)
+    technologies = models.ManyToManyField(TrendingTech)
+    tools = models.ManyToManyField(TrendingTool)
     img = models.TextField(null=True, blank=True)
     logo = models.TextField(null=True, blank=True)
 
@@ -89,8 +102,8 @@ class Profession(models.Model):
         return self.role
 
 
-# Courses Model
-class Courses(models.Model):
+# Course Model
+class Course(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.IntegerField(default=0)
@@ -98,7 +111,8 @@ class Courses(models.Model):
     certificate = models.BooleanField(default=False)
     url = models.TextField(null=True, blank=True)
     img = models.TextField(null=True, blank=True)
-    technologies = models.ManyToManyField(TrendingTechIT)
+    technologies = models.ManyToManyField(TrendingTech)
+    tools = models.ManyToManyField(TrendingTool)
     professions = models.ManyToManyField(Profession)
 
     def __str__(self):
@@ -106,7 +120,7 @@ class Courses(models.Model):
 
 
 # Reccomendation Test
-class ReccomendationTest(models.Model):
+class RecommendationTest(models.Model):
     LEARNER = 0
     INTERMEDIATE = 1
     PROFICIENT = 2
@@ -132,7 +146,7 @@ class ReccomendationTest(models.Model):
     statistics = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
     communication = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
     english = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
-    programming = models.SmallIntegerField(choices=GRADE_CHOICES,default=LEARNER)
+    programming = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
     creativity = models.SmallIntegerField(choices=GRADE_CHOICES, default=LEARNER)
     hackathon = models.BooleanField(default=False)
     hackathon_role = models.BooleanField(default=False)
@@ -144,3 +158,19 @@ class ReccomendationTest(models.Model):
     literature = models.BooleanField(default=False)
     business = models.BooleanField(default=False)
     profession = models.ForeignKey(Profession, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.profession.role
+
+
+# Expert Model
+class Expert(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    topic = models.ManyToManyField(Topic)
+    technologies = models.ManyToManyField(TrendingTech)
+    tools = models.ManyToManyField(TrendingTool)
+    available = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user
+

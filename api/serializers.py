@@ -27,9 +27,15 @@ class EducationalInstituteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TrendingTechITSerializer(serializers.ModelSerializer):
+class TrendingTechSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TrendingTechIT
+        model = TrendingTech
+        fields = '__all__'
+
+
+class TrendingToolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrendingTool
         fields = '__all__'
 
 
@@ -41,11 +47,18 @@ class ProfessionSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Courses
+        model = Course
         fields = '__all__'
 
 
-class ReccomendationTestSerializer(serializers.ModelSerializer):
+class RecommendationTestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ReccomendationTest
+        model = RecommendationTest
         fields = "__all__"
+
+
+class ExpertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Expert
+        fields = "__all__"
+

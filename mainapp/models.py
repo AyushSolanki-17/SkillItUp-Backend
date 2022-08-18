@@ -2,15 +2,13 @@ from django.db import models
 
 # Create your models here.
 
-
-from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, date_of_birth, occupation, password=None):
+    def create_user(self, email, name, date_of_birth, occupation, password=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -20,6 +18,7 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
+            name=name,
             date_of_birth=date_of_birth,
             occupation=occupation
         )
@@ -28,13 +27,14 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, occupation, date_of_birth, password=None):
+    def create_superuser(self, email, name, occupation, date_of_birth, password=None):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
         user = self.create_user(
             email,
+            name=name,
             password=password,
             date_of_birth=date_of_birth,
             occupation=occupation
@@ -52,11 +52,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=255,
         unique=True,
     )
+    name = models.CharField(max_length=255)
     date_of_birth = models.DateField()
     OCCUPATION_CHOICES = (
         ('S', 'Student'),
         ('P', 'Professional'),
         ('B', 'BusinessUser'),
+        ('E', 'Expert')
     )
     occupation = models.CharField(max_length=1, choices=OCCUPATION_CHOICES)
     is_active = models.BooleanField(default=True)
@@ -66,18 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['date_of_birth', 'occupation']
+    REQUIRED_FIELDS = ['name', 'date_of_birth', 'occupation']
 
     def __str__(self):
-        return self.email
-
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
-        return True
-
+        return self.name

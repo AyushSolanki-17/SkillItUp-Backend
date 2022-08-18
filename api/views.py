@@ -1,5 +1,4 @@
 
-from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -54,6 +53,9 @@ class SubDomainViewSet(ViewSet):
 class TopicViewSet(ViewSet):
     queryset = Topic.objects.all()
 
+    def get_queryset(self):
+        self.queryset = Topic.objects.all()
+
     def list(self, request):
         try:
             serializer = TopicSerializer(self.queryset, many=True)
@@ -73,8 +75,12 @@ class TopicViewSet(ViewSet):
 class ProfessionViewSet(ViewSet):
     queryset = Profession.objects.all()
 
+    def get_queryset(self):
+        self.queryset = Profession.objects.all()
+
     def list(self, request):
         try:
+            self.get_queryset()
             serializer = ProfessionSerializer(self.queryset, many=True)
             return Response(serializer.data)
         except:
@@ -90,11 +96,14 @@ class ProfessionViewSet(ViewSet):
 
 
 class CourseViewSet(ViewSet):
-    queryset = Courses.objects.all()
+    queryset = Course.objects.all()
+
+    def get_queryset(self):
+        self.queryset = Course.objects.all().order_by("-rating")
 
     def list(self, request):
         try:
-            self.queryset = self.queryset.all().order_by("-rating")
+            self.get_queryset()
             serializer = CourseSerializer(self.queryset, many=True)
             return Response(serializer.data)
         except:
@@ -109,13 +118,16 @@ class CourseViewSet(ViewSet):
             return Response({"Error": "Specified Course not found"})
 
 
-class TrendingTechITViewSet(ViewSet):
-    queryset = TrendingTechIT.objects.all()
+class TrendingTechViewSet(ViewSet):
+    queryset = TrendingTech.objects.all()
+
+    def get_queryset(self):
+        self.queryset = TrendingTech.objects.all().order_by("-popularity")
 
     def list(self, request):
         try:
-            self.queryset = self.queryset.all().order_by("popularity")
-            serializer = TrendingTechITSerializer(self.queryset, many=True)
+            self.queryset()
+            serializer = TrendingTechSerializer(self.queryset, many=True)
             return Response(serializer.data)
         except:
             return Response({"Error": "Trending Technologies not found"})
@@ -123,20 +135,46 @@ class TrendingTechITViewSet(ViewSet):
     def retrieve(self, request, pk=None):
         try:
             item = get_object_or_404(self.queryset, pk=pk)
-            serializer = TrendingTechITSerializer(item)
+            serializer = TrendingTechSerializer(item)
             return Response(serializer.data)
         except:
             return Response({"Error": "Specified Technology not found"})
 
 
-class ReccomendationTestViewSet(ViewSet):
+class TrendingToolViewSet(ViewSet):
+    queryset = TrendingTool.objects.all().order_by("-popularity")
 
-    queryset = ReccomendationTest.objects.all()
+    def get_queryset(self):
+        self.queryset = TrendingTool.objects.all().order_by("-popularity")
 
     def list(self, request):
         try:
-            self.queryset = self.queryset.all().order_by("date")
-            serializer = ReccomendationTestSerializer(self.queryset, many=True)
+            self.get_queryset()
+            serializer = TrendingToolSerializer(self.queryset, many=True)
+            return Response(serializer.data)
+        except:
+            return Response({"Error": "Trending Tools not found"})
+
+    def retrieve(self, request, pk=None):
+        try:
+            item = get_object_or_404(self.queryset, pk=pk)
+            serializer = TrendingTechSerializer(item)
+            return Response(serializer.data)
+        except:
+            return Response({"Error": "Specified Tool not found"})
+
+
+class RecommendationTestViewSet(ViewSet):
+
+    queryset = RecommendationTest.objects.all().order_by("date")
+
+    def get_queryset(self):
+        self.queryset = RecommendationTest.objects.all().order_by("date")
+
+    def list(self, request):
+        try:
+            self.queryset()
+            serializer = RecommendationTestSerializer(self.queryset, many=True)
             return Response(serializer.data)
         except:
             return Response({"Error": "Records not found"})
@@ -144,7 +182,7 @@ class ReccomendationTestViewSet(ViewSet):
     def retrieve(self, request, pk=None):
         try:
             item = get_object_or_404(self.queryset, pk=pk)
-            serializer = ReccomendationTestSerializer(item)
+            serializer = RecommendationTestSerializer(item)
             return Response(serializer.data)
         except:
             return Response({"Error": "Record not found"})
@@ -152,7 +190,7 @@ class ReccomendationTestViewSet(ViewSet):
     def create(self, request):
 
         try:
-            serializer = ReccomendationTestSerializer(data=request.data, context={"request": request})
+            serializer = RecommendationTestSerializer(data=request.data, context={"request": request})
             serializer.is_valid(raise_exception=True)
             pred = mlpred.model1predict(request.data)
             dbid = MLToDBMapper.mltodb(pred)
@@ -160,7 +198,42 @@ class ReccomendationTestViewSet(ViewSet):
             serializer.validated_data["profession"] = profession
             serializer.save()
             pserializer = ProfessionSerializer(profession)
+            self.get_queryset()
             data = {"suggested_job_id": dbid, "suggested_job": pserializer.data}
             return Response(data)
+        except:
+            return Response({"Error": "Data Integrity Error"})
+
+
+class ExpertViewSet(ViewSet):
+
+    queryset = Expert.objects.all()
+
+    def get_queryset(self):
+        self.queryset = Expert.objects.all()
+
+    def list(self, request):
+        try:
+            self.queryset()
+            serializer = ExpertSerializer(self.queryset, many=True)
+            return Response(serializer.data)
+        except:
+            return Response({"Error": "Experts not found"})
+
+    def retrieve(self, request, pk=None):
+        try:
+            item = get_object_or_404(self.queryset, pk=pk)
+            serializer = ExpertSerializer(item)
+            return Response(serializer.data)
+        except:
+            return Response({"Error": "Expert not found"})
+
+    def create(self, request):
+
+        try:
+            serializer = ExpertSerializer(data=request.data, context={"request": request})
+            serializer.is_valid(raise_exception=True)
+            self.get_queryset()
+            return Response(serializer.data)
         except:
             return Response({"Error": "Data Integrity Error"})

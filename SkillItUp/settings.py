@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'skillitup',
         'USER': 'postgres',
         'PASSWORD': 'TSwzhx5r4txUduT',
-        'HOST': 'skillitupdbopr.cz1y0h51uo8x.us-west-2.rds.amazonaws.com',
+        'HOST': 'skillitupdb.cz1y0h51uo8x.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -121,7 +121,6 @@ BATON = {
     'SUPPORT_HREF': 'https://github.com/otto-torino/django-baton/issues',
     'COPYRIGHT': 'copyright © 2022 SkillItUp by AyushSolanki(ayush17solanki@gmail.com)', # noqa
     'POWERED_BY': 'AyushSolanki(ayush17solanki@gmail.com)',
-
 }
 
 USE_TZ = True
