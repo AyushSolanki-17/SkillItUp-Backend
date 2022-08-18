@@ -93,8 +93,8 @@ class Profession(models.Model):
     description = models.TextField()
     responsibilites = models.TextField()
     expected_salary = models.IntegerField()
-    technologies = models.ManyToManyField(TrendingTech)
-    tools = models.ManyToManyField(TrendingTool)
+    technologies = models.ManyToManyField(TrendingTech, blank=True)
+    tools = models.ManyToManyField(TrendingTool, blank=True)
     img = models.TextField(null=True, blank=True)
     logo = models.TextField(null=True, blank=True)
 
