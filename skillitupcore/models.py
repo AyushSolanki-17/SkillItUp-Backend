@@ -111,8 +111,8 @@ class Course(models.Model):
     certificate = models.BooleanField(default=False)
     url = models.TextField(null=True, blank=True)
     img = models.TextField(null=True, blank=True)
-    technologies = models.ManyToManyField(TrendingTech)
-    tools = models.ManyToManyField(TrendingTool)
+    technologies = models.ManyToManyField(TrendingTech, blank=True)
+    tools = models.ManyToManyField(TrendingTool, blank=True)
     professions = models.ManyToManyField(Profession)
 
     def __str__(self):
