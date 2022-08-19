@@ -177,7 +177,7 @@ class Expert(models.Model):
     topic = models.ManyToManyField(Topic, blank=True)
     technologies = models.ManyToManyField(TrendingTech, blank=True)
     tools = models.ManyToManyField(TrendingTool, blank=True)
-    available = models.BooleanField(default=False)
+    #available = models.BooleanField(default=False, blank=True)
     description = models.TextField()
     languages = models.ManyToManyField(Language, default=True)
     years = models.IntegerField()
