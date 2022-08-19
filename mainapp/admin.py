@@ -16,7 +16,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'name', 'date_of_birth', 'occupation', 'is_staff')
+        fields = ('email', 'name',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -80,10 +80,12 @@ class AppAdminConfig(UserAdmin):
 
     fieldsets = (
         # Other fieldsets
-        (('Group Permissions', {
-            'classes': ('collapse',),
-            'fields': ('groups', 'user_permissions',)
-        },),)
+        (('Personal info', {'fields': ('name', 'date_of_birth', 'occupation')}),
+            ('Permissions', {'fields': ('is_staff', 'is_admin')}),
+            ('Group Permissions', {
+                'classes': ('collapse',),
+                'fields': ('groups', 'user_permissions',)
+            },),)
     )
 
 

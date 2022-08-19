@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 # Create your views here.
-from skillitupcore.MLToDBMapper import MLToDBMapper
+# from skillitupcore.MLToDBMapper import MLToDBMapper
 from api import mlpred
 from api.serializers import *
 from skillitupcore.models import *
@@ -126,7 +126,7 @@ class TrendingTechViewSet(ViewSet):
 
     def list(self, request):
         try:
-            self.queryset()
+            self.get_queryset()
             serializer = TrendingTechSerializer(self.queryset, many=True)
             return Response(serializer.data)
         except:
@@ -173,7 +173,7 @@ class RecommendationTestViewSet(ViewSet):
 
     def list(self, request):
         try:
-            self.queryset()
+            self.get_queryset()
             serializer = RecommendationTestSerializer(self.queryset, many=True)
             return Response(serializer.data)
         except:
@@ -193,7 +193,7 @@ class RecommendationTestViewSet(ViewSet):
             serializer = RecommendationTestSerializer(data=request.data, context={"request": request})
             serializer.is_valid(raise_exception=True)
             pred = mlpred.model1predict(request.data)
-            dbid = MLToDBMapper.mltodb(pred)
+            dbid = pred+1
             profession = get_object_or_404(Profession.objects.all(), pk=dbid)
             serializer.validated_data["profession"] = profession
             serializer.save()
@@ -214,7 +214,7 @@ class ExpertViewSet(ViewSet):
 
     def list(self, request):
         try:
-            self.queryset()
+            self.get_queryset()
             serializer = ExpertSerializer(self.queryset, many=True)
             return Response(serializer.data)
         except:

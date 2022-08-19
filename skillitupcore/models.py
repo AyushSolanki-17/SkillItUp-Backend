@@ -163,13 +163,24 @@ class RecommendationTest(models.Model):
         return self.profession.role
 
 
+class Language(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 # Expert Model
 class Expert(models.Model):
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    topic = models.ManyToManyField(Topic)
-    technologies = models.ManyToManyField(TrendingTech)
-    tools = models.ManyToManyField(TrendingTool)
+    topic = models.ManyToManyField(Topic, blank=True)
+    technologies = models.ManyToManyField(TrendingTech, blank=True)
+    tools = models.ManyToManyField(TrendingTool, blank=True)
     available = models.BooleanField(default=False)
+    description = models.TextField()
+    languages = models.ManyToManyField(Language, default=True)
+    years = models.IntegerField()
 
     def __str__(self):
         return self.user
