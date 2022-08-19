@@ -1,3 +1,4 @@
+import datetime
 
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import AllowAny
@@ -235,5 +236,42 @@ class ExpertViewSet(ViewSet):
             serializer.is_valid(raise_exception=True)
             self.get_queryset()
             return Response(serializer.data)
+        except:
+            return Response({"Error": "Data Integrity Error"})
+
+
+class LoginViewSet(ViewSet):
+
+    def create(self, request):
+        try:
+            serializer = LoginSerializer(data=request.data, context={"request": request})
+            serializer.is_valid(raise_exception=True)
+            email = serializer.data["email"]
+            password = serializer.data["password"]
+            user = User.objects.get(email=email)
+            if user.check_password(password):
+                data = {"id": user.id, "email": user.email}
+                return Response(data)
+            else:
+                return Response({"Error": "Wrong Password"})
+        except:
+            return Response({"Error": "Data Integrity Error"})
+
+
+class SignUpViewSet(ViewSet):
+
+    def create(self, request):
+        try:
+            serializer = SignUpSerializer(data=request.data, context={"request": request})
+            serializer.is_valid(raise_exception=True)
+            email = serializer.data["email"]
+            username = serializer.data["username"]
+            password = serializer.data["password"]
+            user = User.objects.create_user(email=email, name=username, date_of_birth=datetime.now(),
+                                            occupation='S')
+            user.set_password(password)
+            user.save()
+            data = {"id": user.id, "email": user.email}
+            return Response(data)
         except:
             return Response({"Error": "Data Integrity Error"})

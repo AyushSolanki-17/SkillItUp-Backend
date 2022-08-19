@@ -62,3 +62,27 @@ class ExpertSerializer(serializers.ModelSerializer):
         model = Expert
         fields = "__all__"
 
+
+class LoginSerializer(serializers.Serializer):
+
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=20)
+
+
+class SignUpSerializer(serializers.Serializer):
+
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
+    email = serializers.EmailField()
+    username = serializers.CharField(max_length=30)
+    password = serializers.CharField(max_length=20)
