@@ -15,6 +15,7 @@ router.register(r'trendingtechs', views.TrendingTechViewSet, basename='trendingt
 router.register(r'trendingtools', views.TrendingToolViewSet, basename='trendingtechtools')
 router.register(r'recommendationtest', views.RecommendationTestViewSet, basename='recommendationtest')
 router.register(r'experts', views.ExpertViewSet, basename='expert')
+router.register(r'searchexperts', views.SearchExpertViewSet, basename='searchexperts')
 router.register(r'login', views.LoginViewSet, basename='login')
 router.register(r'signup', views.SignUpViewSet, basename='signup')
 urlpatterns = router.urls

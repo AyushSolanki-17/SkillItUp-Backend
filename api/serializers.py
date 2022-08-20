@@ -58,6 +58,7 @@ class RecommendationTestSerializer(serializers.ModelSerializer):
 
 
 class ExpertSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Expert
         fields = "__all__"
@@ -86,3 +87,14 @@ class SignUpSerializer(serializers.Serializer):
     email = serializers.EmailField()
     username = serializers.CharField(max_length=30)
     password = serializers.CharField(max_length=20)
+
+
+class SearchExpertSerializer(serializers.Serializer):
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
+    topic = serializers.IntegerField()
+    language = serializers.IntegerField()

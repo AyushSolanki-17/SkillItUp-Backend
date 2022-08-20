@@ -166,7 +166,6 @@ class TrendingToolViewSet(ViewSet):
 
 
 class RecommendationTestViewSet(ViewSet):
-
     queryset = RecommendationTest.objects.all().order_by("date")
 
     def get_queryset(self):
@@ -194,7 +193,7 @@ class RecommendationTestViewSet(ViewSet):
             serializer = RecommendationTestSerializer(data=request.data, context={"request": request})
             serializer.is_valid(raise_exception=True)
             pred = mlpred.model1predict(request.data)
-            dbid = pred+1
+            dbid = pred + 1
             profession = get_object_or_404(Profession.objects.all(), pk=dbid)
             serializer.validated_data["profession"] = profession
             serializer.save()
@@ -207,7 +206,6 @@ class RecommendationTestViewSet(ViewSet):
 
 
 class ExpertViewSet(ViewSet):
-
     queryset = Expert.objects.all()
 
     def get_queryset(self):
@@ -217,6 +215,8 @@ class ExpertViewSet(ViewSet):
         try:
             self.get_queryset()
             serializer = ExpertSerializer(self.queryset, many=True)
+            for e in serializer.data:
+                e["username"] = User.objects.get(id=e["user"]).name
             return Response(serializer.data)
         except:
             return Response({"Error": "Experts not found"})
@@ -225,7 +225,9 @@ class ExpertViewSet(ViewSet):
         try:
             item = get_object_or_404(self.queryset, pk=pk)
             serializer = ExpertSerializer(item)
-            return Response(serializer.data)
+            data = serializer.data
+            data["username"] = User.objects.get(id=serializer.data["user"]).name
+            return Response(data)
         except:
             return Response({"Error": "Expert not found"})
 
@@ -275,3 +277,20 @@ class SignUpViewSet(ViewSet):
             return Response(data)
         except:
             return Response({"Error": "Data Integrity Error"})
+
+
+class SearchExpertViewSet(ViewSet):
+
+    def create(self, request):
+        try:
+            serializer = SearchExpertSerializer(data=request.data, context={"request": request})
+            serializer.is_valid(raise_exception=True)
+            expert = Expert.objects.filter(languages=serializer.data["language"], topic=serializer.data["topic"])
+            serializer = ExpertSerializer(expert, many=True)
+            for e in serializer.data:
+                e["username"] = User.objects.get(id=e["user"]).name
+
+            data = {"Suggested Professor Details": serializer.data}
+            return Response(data)
+        except:
+            return Response({"Error": "Search Filters Error"})
