@@ -252,7 +252,7 @@ class LoginViewSet(ViewSet):
             password = serializer.data["password"]
             user = User.objects.get(email=email)
             if user.check_password(password):
-                data = {"id": user.id, "email": user.email}
+                data = {"id": user.id, "email": user.email, "username": user.name}
                 return Response(data)
             else:
                 return Response({"Error": "Wrong Password"})
@@ -273,7 +273,7 @@ class SignUpViewSet(ViewSet):
                                             occupation='S')
             user.set_password(password)
             user.save()
-            data = {"id": user.id, "email": user.email}
+            data = {"id": user.id, "email": user.email, "username": user.name}
             return Response(data)
         except:
             return Response({"Error": "Data Integrity Error"})
